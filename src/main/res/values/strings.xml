@@ -1,0 +1,85 @@
+<resources>
+    <string name="app_name">IOCipherBrowserExt</string>
+    <string name="title_activity_feedback">Feedback</string>
+    <string name="title_activity_update">Update</string>
+
+    <string name="title_activity_save_content">SaveContent</string>
+    <string name="action_settings">Settings</string>
+    <string name="uploading_hint">Please wait while your data gets loaded &#8230;</string>
+    <string name="showPassword">Show password</string>
+    <string name="hintPlugContainer">For start use browser you have to plug the container</string>
+
+    <string name="btnPlug">Plug</string>
+    <string name="btnCreate">Create</string>
+    <string name="btnCancel">Cancel</string>
+    <string name="btnOk">OK</string>
+    <string name="btnYes">Yes</string>
+    <string name="btnNo">No</string>
+    <string name="btnTicketCreate">Create Ticket</string>
+    <string name="btnTicketResponse">Response Ticket</string>
+    <string name="btnUpdate">Update</string>
+
+    <string name="menuSettings">Settings</string>
+
+    <string name="menuBackToProgram">Back to program</string>
+
+    <string name="menuCreateContainer">Create Container</string>
+    <string name="menuMountContainer">Mount Container</string>
+    <string name="menuUnMountContainer">UnMount Container</string>
+    <string name="menuDeleteContainer">Delete Current Container</string>
+
+    <string name="menuDebug">Debug</string>
+    <string name="menuCreate">New Folder</string>
+    <string name="menuCopy">Copy</string>
+    <string name="menuCut">Cut</string>
+    <string name="menuRename">Rename</string>
+    <string name="menuPaste">Paste</string>
+    <string name="menuDelete">Delete</string>
+    <string name="menuExport">Export</string>
+    <string name="menuFeedback">Feedback</string>
+    <string name="menuRefresh">Refresh</string>
+    <string name="menuTakePhoto">Take Photo</string>
+    <string name="menuShare">Share</string>
+    <string name="menuUpdate">Update Soft</string>
+
+    <string name="pathInternal">Internal</string>
+    <string name="pathExternal">External</string>
+    <string name="pathCustom">Custom</string>
+
+    <string name="savedContainers">Your containers</string>
+
+    <string name="settingsContainerPath">Container path</string>
+    <string name="settingsImportAction">Import File Action</string>
+
+    <string-array name="settingsImportActions">
+        <item>COPY</item>
+        <item>MOVE</item>
+    </string-array>
+
+    <string name="importCautionTitle">Caution!</string>
+    <string name="importCautionText">Be aware! You photo still exists in your album. Delete its manually using album application</string>
+
+    <string name="openDrawer">Open Drawer</string>
+    <string name="closeDrawer">Close Drawer</string>
+
+    <string name="containerDeleteDialogTitle">Deleting container</string>
+    <string name="containerDeleteDialogMessage">Are you sure you want to delete current container?</string>
+    <string name="containerDeleteSuccess">Container file was successfully deleted</string>
+    <string name="containerDeleteFailed">Could not delete container file</string>
+    <string name="containerDeleteError">Delete container file - ERROR</string>
+
+    <string name="txtCurrentVersion">Current Version</string>
+    <string name="txtLatestVersion">Latest Version</string>
+    <string name="txtLatestVersionUnknown">unknown</string>
+    <string name="txtUpdatingHint">Getting latest version info</string>
+    <string name="txtUpdatingHintOk">You have the latest version</string>
+    <string name="txtUpdatingHintFail">You have to download the latest version</string>
+
+    <string name="containerBadPassword">Bad password</string>
+
+    <string name="dmUpdateTitle">Update app</string>
+    <string name="dmUpdateDescription">Download latest version</string>
+    <string name="txtUpdateFileAlreadyDownloaded">Update file already downloaded. Starting installation</string>
+    <string name="txtUpdateFileStartDownload">Update file starts download.</string>
+
+</resources>

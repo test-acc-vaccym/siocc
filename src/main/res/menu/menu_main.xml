@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/menuSettings"
+        android:title="@string/menuSettings"
+        android:icon="@drawable/preferences"
+        app:showAsAction="ifRoom"
+        tools:ignore="AppCompatResource"/>
+
+    <group android:id="@+id/menuContainerActionsGroup" android:checkableBehavior="none">
+        <item
+            android:id="@+id/menuCreateContainer"
+            android:title="@string/menuCreateContainer"
+            android:icon="@drawable/mount_plus"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuPlugContainer"
+            android:title="@string/menuMountContainer"
+            android:icon="@drawable/mount"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuUnPlugContainer"
+            android:title="@string/menuUnMountContainer"
+            android:icon="@drawable/unmount"
+            app:showAsAction="ifRoom"
+            />
+    </group>
+
+    <group android:id="@+id/menuContainerDeleteGroup" android:checkableBehavior="none">
+        <item
+            android:id="@+id/menuDeleteContainer"
+            android:title="@string/menuDeleteContainer"
+            android:icon="@drawable/mount_minus"
+            app:showAsAction="ifRoom"
+            />
+    </group>
+
+    <group android:id="@+id/menuItemActionsGroup" android:checkableBehavior="none">
+        <item
+            android:id="@+id/menuDebug"
+            android:title="@string/menuDebug"
+            />
+        <item
+            android:id="@+id/menuNewFolder"
+            android:icon="@drawable/plus"
+            android:title="@string/menuCreate"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuCopy"
+            android:icon="@drawable/copy"
+            android:title="@string/menuCopy"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuCut"
+            android:icon="@drawable/cut"
+            android:title="@string/menuCut"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuRename"
+            android:icon="@drawable/rename"
+            android:title="@string/menuRename"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuPaste"
+            android:icon="@drawable/paste"
+            android:title="@string/menuPaste"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuDelete"
+            android:icon="@drawable/delete"
+            android:title="@string/menuDelete"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuExport"
+            android:title="@string/menuExport"
+            android:icon="@drawable/export"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuTakePhoto"
+            android:title="@string/menuTakePhoto"
+            android:icon="@drawable/photo"
+            app:showAsAction="ifRoom"
+            />
+        <item
+            android:id="@+id/menuShare"
+            android:title="@string/menuShare"
+            android:icon="@drawable/share"
+            app:showAsAction="ifRoom"
+            />
+    </group>
+
+    <group android:id="@+id/menuAppGroup" android:checkableBehavior="none">
+        <item
+            android:id="@+id/menuFeedback"
+            android:title="@string/menuFeedback"
+            android:icon="@drawable/feedback"
+            />
+        <item
+            android:id="@+id/menuUpdate"
+            android:title="@string/menuUpdate"
+            android:icon="@drawable/update_soft"
+            />
+    </group>
+</menu>

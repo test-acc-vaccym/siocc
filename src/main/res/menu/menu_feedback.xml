@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="name.xunicorn.iocipherbrowserext.activities.FeedbackActivity">
+    <item android:id="@+id/menuBackToProgram"
+          android:title="@string/menuBackToProgram"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+    <item android:id="@+id/menuRefresh"
+        android:title="@string/menuRefresh"
+        android:icon="@drawable/refresh"
+        app:showAsAction="always"
+        />
+</menu>
