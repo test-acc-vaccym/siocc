@@ -75,11 +75,18 @@
     <string name="txtUpdatingHintOk">You have the latest version</string>
     <string name="txtUpdatingHintFail">You have to download the latest version</string>
 
-    <string name="containerBadPassword">Bad password</string>
+    <string name="txtContainerBadPassword">Bad password</string>
 
-    <string name="dmUpdateTitle">Update app</string>
-    <string name="dmUpdateDescription">Download latest version</string>
+    <string name="txtDownloadManagerUpdateTitle">Update app</string>
+    <string name="txtDownloadManagerUpdateDescription">Download latest version</string>
     <string name="txtUpdateFileAlreadyDownloaded">Update file already downloaded. Starting installation</string>
     <string name="txtUpdateFileStartDownload">Update file starts download.</string>
 
+    <string name="txtTicketHasLogs">Has Logs</string>
+    <string name="txtCreateTicketRequestError">There is error in creating ticket.</string>
+
+    <string name="txtCreateTicketTitle">Title</string>
+    <string name="txtCreateTicketUsername">Username</string>
+    <string name="txtCreateTicketMessage">Message</string>
+    <string name="txtCreateTicketAppLogs">Send App logs</string>
 </resources>

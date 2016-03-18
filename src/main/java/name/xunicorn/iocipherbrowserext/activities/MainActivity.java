@@ -503,7 +503,7 @@ public class MainActivity
             Log.e(TAG, "[vfsMount] error: " + ex.getMessage(), ex);
 
             if(ex instanceof IllegalArgumentException) {
-                Toast.makeText(getBaseContext(), R.string.containerBadPassword, Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), R.string.txtContainerBadPassword, Toast.LENGTH_LONG).show();
             }
         }
     }

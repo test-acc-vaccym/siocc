@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,8 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.android.volley.*;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import name.xunicorn.iocipherbrowserext.R;
@@ -30,7 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.util.*;
 
 public class UpdateActivity
         extends AppCompatActivity
@@ -359,8 +355,8 @@ public class UpdateActivity
         DownloadManager.Request request = new DownloadManager.Request(
                 Uri.parse(Configs.URL_DOWNLOAD_LATEST_VERSION));
 
-        request.setDescription(getString(R.string.dmUpdateDescription))
-                .setTitle(getString(R.string.dmUpdateTitle))
+        request.setDescription(getString(R.string.txtDownloadManagerUpdateDescription))
+                .setTitle(getString(R.string.txtDownloadManagerUpdateTitle))
                 .setDestinationUri(Uri.fromFile(saveFile));
 
         enqueue = dm.enqueue(request);

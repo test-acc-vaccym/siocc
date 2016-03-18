@@ -4,14 +4,17 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import name.xunicorn.iocipherbrowserext.R;
 import name.xunicorn.iocipherbrowserext.activities.FeedbackActivity;
+import name.xunicorn.iocipherbrowserext.components.MyAppLogReader;
 
 
 public class NewTicketDialog extends DialogFragment implements View.OnClickListener {
@@ -26,6 +29,7 @@ public class NewTicketDialog extends DialogFragment implements View.OnClickListe
     EditText title;
     EditText user;
     EditText message;
+    CheckBox appLogs;
 
     Button btnCreate;
     Button btnCancel;
@@ -62,9 +66,10 @@ public class NewTicketDialog extends DialogFragment implements View.OnClickListe
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.dialog_new_ticket, container, false);
 
-        title = (EditText) v.findViewById(R.id.newTicketTitle);
-        user  = (EditText) v.findViewById(R.id.newTicketUsername);
+        title   = (EditText) v.findViewById(R.id.newTicketTitle);
+        user    = (EditText) v.findViewById(R.id.newTicketUsername);
         message = (EditText) v.findViewById(R.id.newTicketMessage);
+        appLogs = (CheckBox) v.findViewById(R.id.newTicketAppLogs);
 
         btnCreate = (Button) v.findViewById(R.id.btnCreate);
         btnCancel = (Button) v.findViewById(R.id.btnCancel);
@@ -114,6 +119,7 @@ public class NewTicketDialog extends DialogFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Log.i(TAG, "[onClick]");
         if(v.getId() == R.id.btnCancel) {
             dismiss();
         }
@@ -121,8 +127,15 @@ public class NewTicketDialog extends DialogFragment implements View.OnClickListe
         String title    = this.title.getText().toString();
         String username = this.user.getText().toString();
         String message  = this.message.getText().toString();
+        String appLogs  = null;
 
-        FeedbackActivity.Ticket ticket = new FeedbackActivity.Ticket(message, parent_id, title, username);
+        if(this.appLogs.isChecked()) {
+            appLogs = MyAppLogReader.getLog().toString();
+        }
+
+        //Log.d(TAG, "[onClick] logs: " + appLogs);
+
+        FeedbackActivity.Ticket ticket = new FeedbackActivity.Ticket(message, parent_id, title, username, appLogs);
 
         mListener.onCreateNewTicket(ticket);
 

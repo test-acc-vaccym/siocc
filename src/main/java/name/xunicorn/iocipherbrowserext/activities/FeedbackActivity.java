@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
@@ -13,6 +14,7 @@ import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.jaredrummler.android.device.DeviceName;
 import name.xunicorn.iocipherbrowserext.R;
 import name.xunicorn.iocipherbrowserext.components.Configs;
 import name.xunicorn.iocipherbrowserext.fragments.dialogs.NewTicketDialog;
@@ -20,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +39,9 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
     public static final String TAG_USERNAME  = "username";
     public static final String TAG_TOPIC     = "topic";
     public static final String TAG_MESSAGE   = "message";
+    public static final String TAG_LOGCAT    = "logcat";
+    public static final String TAG_DEVICE_INFO     = "device_info";
+    public static final String TAG_DEVICE_INFO_EXT = "device_info_ext";
 
     public static final String TAG_FEEDBACK  = "Feedback";
     public static final String TAG_SUCCESS   = "success";
@@ -198,6 +204,36 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
         mListView.setAdapter(new TicketsAdapter(tickets));
     }
 
+    public static String getDeviceName() {
+        String manufacturer = android.os.Build.MANUFACTURER;
+        String model = android.os.Build.MODEL;
+        if (model.startsWith(manufacturer)) {
+            return capitalize(model);
+        }
+        return capitalize(manufacturer) + " " + model;
+    }
+
+    private static String capitalize(String str) {
+        if (TextUtils.isEmpty(str)) {
+            return str;
+        }
+        char[] arr = str.toCharArray();
+        boolean capitalizeNext = true;
+        String phrase = "";
+        for (char c : arr) {
+            if (capitalizeNext && Character.isLetter(c)) {
+                phrase += Character.toUpperCase(c);
+                capitalizeNext = false;
+                continue;
+            } else if (Character.isWhitespace(c)) {
+                capitalizeNext = true;
+            }
+            phrase += c;
+        }
+        return phrase;
+    }
+
+    //region HTTP requests
     protected void requestGetTickets(String url) {
         Log.i(TAG, "[requestGetTickets] url: " + url);
 
@@ -227,6 +263,7 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
                                 String username   = obj.getString(TAG_USERNAME);
                                 String topic      = obj.getString(TAG_TOPIC);
                                 String message    = obj.getString(TAG_MESSAGE);
+                                String appLog     = obj.getString(TAG_LOGCAT);
 
                                 tickets.add(new Ticket(
                                         date,
@@ -236,7 +273,8 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
                                         is_closed,
                                         username,
                                         topic,
-                                        message
+                                        message,
+                                        appLog
                                 ));
                             }
 
@@ -294,6 +332,8 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
                                 url = url.replace("#", ticket.parent_id.toString());
                             }
 
+                            isExpandable = true;
+
                             changeToolbarTopic(ticket.topic);
                             requestGetTickets(url);
                         } catch (JSONException ex) {
@@ -305,6 +345,29 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "[requestCreateTicket][JsonObjectRequest][onErrorResponse] error: " + error.getMessage(), error);
+
+                        Toast.makeText(getBaseContext(), R.string.txtCreateTicketRequestError, Toast.LENGTH_LONG).show();
+
+                        String body;
+                        String statusCode = String.valueOf(error.networkResponse.statusCode);
+
+                        if(error.networkResponse.data != null) {
+                            try{
+                                body = new String(error.networkResponse.data, "UTF-8");
+
+                                Log.w(TAG, "[requestCreateTicket][JsonObjectRequest][onErrorResponse] status code: " + statusCode + " | body: " + body);
+                            } catch (UnsupportedEncodingException e) {
+                                Log.e(TAG, "[requestCreateTicket][JsonObjectRequest][onErrorResponse] error: " + e.getMessage(), e);
+                            }
+                        }
+
+                        String url = Configs.URL_GET_TICKETS;
+
+                        if (ticket.parent_id != 0) {
+                            url = url.replace("#", ticket.parent_id.toString());
+                        }
+
+                        requestGetTickets(url);
                     }
                 });
 
@@ -312,7 +375,9 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
 
         queue.add(request);
     }
+    //endregion
 
+    //region List adapter
     class TicketsAdapter extends ArrayAdapter<Ticket> {
 
         SimpleDateFormat format;
@@ -334,6 +399,7 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
             TextView username = (TextView) convertView.findViewById(R.id.feedbackUsername);
             TextView date     = (TextView) convertView.findViewById(R.id.feedbackDate);
             TextView message  = (TextView) convertView.findViewById(R.id.feedbackMessage);
+            TextView logs     = (TextView) convertView.findViewById(R.id.feedbackAppLogs);
 
             final Ticket ticket     = this.getItem(position);
 
@@ -347,10 +413,13 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
             username.setText(usernameStr);
             date.setText(format.format(ticket.date));
 
-            //if(ticket.is_admin) {
-                topic.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
-                username.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
-            //}
+            topic.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
+            username.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.cyan));
+
+            if(ticket.hasLogs()) {
+                logs.setText(R.string.txtTicketHasLogs);
+                logs.setVisibility(View.VISIBLE);
+            }
 
             if(isExpandable) {
                 topic.setVisibility(View.GONE);
@@ -361,18 +430,28 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
             return convertView;
         }
     }
+    //endregion
 
+    //region Ticket class
     public static class Ticket {
         public final Integer id;
         public final Integer parent_id;
         public final Boolean is_admin;
         public final Boolean is_closed;
-        public final Date date;
-        public final String username;
-        public final String topic;
-        public final String message;
+        public final Date    date;
+        public final String  username;
+        public final String  topic;
+        public final String  message;
+        public final String  logcat;
+
+        public final String deviceInfo;
+        public final String deviceInfoExt;
 
         public Ticket(Date date, Integer id, Integer parent_id, Boolean is_admin, Boolean is_closed, String username, String topic, String message) {
+            this(date, id, parent_id, is_admin, is_closed, username, topic, message, null);
+        }
+
+        public Ticket(Date date, Integer id, Integer parent_id, Boolean is_admin, Boolean is_closed, String username, String topic, String message, String logcat) {
             this.date = date;
             this.id = id;
             this.parent_id = parent_id;
@@ -381,18 +460,31 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
             this.username = username;
             this.topic = topic;
             this.message = message;
+            this.logcat = logcat;
+
+            deviceInfo = null;
+            deviceInfoExt = null;
         }
 
         public Ticket(String message, Integer parent_id, String topic, String username) {
+            this(message, parent_id, topic, username, null);
+        }
+
+        public Ticket(String message, Integer parent_id, String topic, String username, String logcat) {
             this.message   = message;
             this.parent_id = parent_id;
             this.topic     = topic;
             this.username  = username;
+            this.logcat    = logcat;
 
             id        = null;
             is_admin  = false;
             is_closed = false;
             date      = new Date();
+
+            deviceInfo    = DeviceName.getDeviceName();
+            //deviceInfo    = android.os.Build.MODEL;
+            deviceInfoExt = getDeviceName();
         }
 
         public JSONObject toJSON() {
@@ -408,12 +500,19 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
                 obj.put(TAG_USERNAME, username);
                 obj.put(TAG_TOPIC, topic);
                 obj.put(TAG_MESSAGE, message);
+                obj.put(TAG_LOGCAT, logcat);
+                obj.put(TAG_DEVICE_INFO, deviceInfo);
+                obj.put(TAG_DEVICE_INFO_EXT, deviceInfoExt);
 
                 return obj;
             } catch (JSONException e) {
                 e.printStackTrace();
                 return null;
             }
+        }
+
+        public boolean hasLogs() {
+            return !TextUtils.isEmpty(logcat);
         }
 
         @Override
@@ -425,9 +524,13 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
                     ", is_admin=" + is_admin +
                     ", is_closed=" + is_closed +
                     ", username='" + username + '\'' +
-                    ", title='" + topic + '\'' +
+                    ", topic='" + topic + '\'' +
                     ", message='" + message + '\'' +
+                    ", logcat='" + logcat + '\'' +
+                    ", deviceInfo='" + deviceInfo + '\'' +
+                    ", deviceInfoExt='" + deviceInfoExt + '\'' +
                     '}';
         }
     }
+    //endregion
 }

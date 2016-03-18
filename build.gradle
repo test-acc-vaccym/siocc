@@ -40,7 +40,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
-    compile 'de.hdodenhof:circleimageview:1.3.0'
     compile 'info.guardianproject.iocipher:IOCipherStandalone:0.3'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.jaredrummler:android-device-names:1.0.8'
+    compile 'info.guardianproject.cacheword:cachewordlib:0.1'
 }
