@@ -358,6 +358,8 @@ public class CopyDialog extends DialogFragment {
                     } catch (InterruptedException ex) {
                         throw ex;
                     }
+
+                    filesCounter++;
                 }
             }
         }

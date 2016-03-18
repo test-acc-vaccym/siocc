@@ -20,12 +20,14 @@
     <string name="btnUpdate">Update</string>
 
     <string name="menuSettings">Settings</string>
+    <string name="menuMainWindow">Main Window</string>
 
     <string name="menuBackToProgram">Back to program</string>
 
     <string name="menuCreateContainer">Create Container</string>
     <string name="menuMountContainer">Mount Container</string>
     <string name="menuUnMountContainer">UnMount Container</string>
+    <string name="menuQuickUnMountContainer">UnMount Container &amp; delete passwords</string>
     <string name="menuDeleteContainer">Delete Current Container</string>
 
     <string name="menuDebug">Debug</string>
@@ -89,4 +91,7 @@
     <string name="txtCreateTicketUsername">Username</string>
     <string name="txtCreateTicketMessage">Message</string>
     <string name="txtCreateTicketAppLogs">Send App logs</string>
+
+    <string name="txtContainerFileNotExist">Container file not exist</string>
+    <string name="txtContainerFileExist">Such container file exist</string>
 </resources>

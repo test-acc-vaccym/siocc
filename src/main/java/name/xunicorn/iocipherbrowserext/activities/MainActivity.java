@@ -22,6 +22,7 @@ import android.view.*;
 import android.widget.*;
 import info.guardianproject.iocipher.VirtualFileSystem;
 import name.xunicorn.iocipherbrowserext.R;
+import name.xunicorn.iocipherbrowserext.components.Cryptor;
 import name.xunicorn.iocipherbrowserext.fragments.*;
 import name.xunicorn.iocipherbrowserext.fragments.dialogs.*;
 import name.xunicorn.iocipherbrowserext.models.Containers;
@@ -63,6 +64,7 @@ public class MainActivity
     DefaultFragment         defaultFragment;
     SettingsFragment        settingsFragment;
 
+    Map<String, byte[]> passwords = new Hashtable<String, byte[]>();
 
     //endregion
 
@@ -139,7 +141,11 @@ public class MainActivity
             ex.printStackTrace();
         }
 
-        plugDefaultFragment();
+        if(vfs.isMounted()) {
+            plugContainerFragment();
+        } else {
+            plugDefaultFragment();
+        }
     }
 
     //region Menu block
@@ -170,6 +176,7 @@ public class MainActivity
                 return true;
             case R.id.menuUnPlugContainer:
                 Log.d(TAG, "[onOptionsItemSelected] MENU_UNPLUG_CONTAINER");
+                passwords = new Hashtable<String, byte[]>();
                 commandUnPlugContainer();
                 break;
         }
@@ -192,6 +199,11 @@ public class MainActivity
             case R.id.menuSettings:
                 Log.d(TAG, "[onNavigationItemSelected] MENU_SETTINGS");
                 commandSettings();
+                break;
+
+            case R.id.menuMainWindow:
+                Log.d(TAG, "[onNavigationItemSelected] MENU_MAIN_WINDOW");
+                commandMainWindow();
                 break;
 
             case R.id.menuCreateContainer:
@@ -289,9 +301,14 @@ public class MainActivity
         navigationView.getMenu().setGroupVisible(R.id.menuContainerDeleteGroup, false);
     }
 
-    protected void containerMenuGroupsShow() {
+    protected void showItemsMenuGroup() {
         navigationView.getMenu().setGroupVisible(R.id.menuItemActionsGroup, true);
         navigationView.getMenu().setGroupVisible(R.id.menuContainerDeleteGroup, true);
+    }
+
+    protected void changeMainWindowMenuVisibility(boolean mainVisibility, boolean settingsVisibility) {
+        navigationView.getMenu().findItem(R.id.menuSettings).setVisible(settingsVisibility);
+        navigationView.getMenu().findItem(R.id.menuMainWindow).setVisible(mainVisibility);
     }
 
     //endregion
@@ -362,8 +379,8 @@ public class MainActivity
 
     //region Dialogs Listeners
     @Override
-    public void setNewName(String oldName, String new_name, NewNameDialog.TYPE type, NewNameDialog.ACTION action) {
-        Log.d(TAG, "[setNewName] new name: " + new_name + " | type: " + type.toString());
+    public void onSetNewName(String oldName, String new_name, NewNameDialog.TYPE type, NewNameDialog.ACTION action) {
+        Log.d(TAG, "[onSetNewName] new name: " + new_name + " | type: " + type.toString());
 
         boolean is_new = action == NewNameDialog.ACTION.NEW;
 
@@ -384,13 +401,13 @@ public class MainActivity
 
                 File file = new File(this.container.getPath());
 
-                Log.i(TAG, "[setNewName] new container path: " + file.getAbsolutePath());
+                Log.i(TAG, "[onSetNewName] new container path: " + file.getAbsolutePath());
 
                 if(!file.exists()) {
                     PasswordDialog.newInstance().show(getFragmentManager(), "passwordDialogNewContainer");
                 } else {
-                    Log.e(TAG, "[setNewName] such container file exists: " + this.container.getPath());
-                    Toast.makeText(this, "Such container file exists: " + this.container.getPath(), Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "[onSetNewName] such container file exists: " + this.container.getPath());
+                    Toast.makeText(this, R.string.txtContainerFileExist, Toast.LENGTH_LONG).show();
                 }
                 break;
         }
@@ -430,13 +447,21 @@ public class MainActivity
 
         if(!container_file.exists() && !container.isCreate()) {
             Log.e(TAG, "[onSelectContainerPath] container file does not exists: " + path);
+            Toast.makeText(getBaseContext(), R.string.txtContainerFileNotExist, Toast.LENGTH_LONG).show();
             return;
         }
 
         this.container = new PluggedContainer(container);
 
         if(container.isOpen()) {
-            PasswordDialog.newInstance().show(getFragmentManager(), "passwordDialog");
+            Log.d(TAG, "[onSelectContainerPath] passwords: " + passwords + " | container path: " + this.container.getPath());
+
+            if(passwords.containsKey(this.container.getPath())) {
+                this.container.setPasswordHash(passwords.get(this.container.getPath()));
+                vfsMount();
+            } else {
+                PasswordDialog.newInstance().show(getFragmentManager(), "passwordDialog");
+            }
         } else if(container.isCreate()) {
             NewNameDialog
                     .newInstance(NewNameDialog.TYPE.CONTAINER, NewNameDialog.ACTION.NEW)
@@ -455,7 +480,7 @@ public class MainActivity
     }
 
     @Override
-    public void onSetContainerPassword(String password) {
+    public void onSetContainerPassword(char[] password) {
         Log.d(TAG, "[onSetContainerPassword] password: " + password);
 
         //containerSecret = password;
@@ -479,19 +504,21 @@ public class MainActivity
             if(this.container.isCreate()) {
                 vfs.createNewContainer(this.container.getPath(), this.container.getPassword());
 
+
+
                 String importContainer = Preferences.model(getBaseContext()).getImportContainer();
 
                 if(importContainer == null) {
                     Preferences.model(getBaseContext()).setImportContainer(this.container.getPath());
                 }
-            } else {
-                vfs.setContainerPath(this.container.getPath());
             }
 
             if (!vfs.isMounted()) {
-                vfs.mount(this.container.getPassword());
+                vfs.mount(this.container.getPath(), this.container.getPassword());
 
                 Log.i(TAG, "[vfsMount] vfs isMounted: " + vfs.isMounted());
+
+                passwords.put(this.container.getPath(), this.container.getPassword());
 
                 Containers.model(this).savePath(this.container.getPath(), this.container.selectedContainer.path);
             }
@@ -519,7 +546,7 @@ public class MainActivity
                 Log.i(TAG, "[vfsUnMount] vfs successfully unmounted");
             } catch(Exception ex) {
                 Log.e(TAG, "[vfsUnMount] error: " + ex.getMessage(), ex);
-                Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -558,7 +585,7 @@ public class MainActivity
     protected void plugSettingsContainer() {
         Log.i(TAG, "[plugSettingsContainer]");
 
-        //vfsUnMount();
+        changeMainWindowMenuVisibility(true, false);
 
         FragmentTransaction fTrans = getFragmentManager().beginTransaction();
 
@@ -574,6 +601,8 @@ public class MainActivity
     protected void plugContainerFragment() {
         Log.i(TAG, "[plugContainerFragment]");
 
+        changeMainWindowMenuVisibility(false, true);
+
         FragmentTransaction fTrans = getFragmentManager().beginTransaction();
 
         fTrans.replace(R.id.frgmContent, containerFragment);
@@ -582,11 +611,13 @@ public class MainActivity
 
         fTrans.commit();
 
-        containerMenuGroupsShow();
+        showItemsMenuGroup();
     }
 
     protected void plugDefaultFragment() {
         Log.i(TAG, "[plugDefaultFragment]");
+
+        changeMainWindowMenuVisibility(false, true);
 
         vfsUnMount();
 
@@ -620,6 +651,16 @@ public class MainActivity
     public void commandSettings() {
         Log.i(TAG, "[commandSettings]");
         plugSettingsContainer();
+    }
+
+    public void commandMainWindow() {
+        Log.i(TAG, "[commandMainWindow]");
+
+        if(vfs.isMounted()) {
+            plugContainerFragment();
+        } else {
+            plugDefaultFragment();
+        }
     }
 
     public void commandDebug() {
@@ -824,9 +865,12 @@ public class MainActivity
     }
     //endregion
 
+    //region Plugged Container
     class PluggedContainer {
+
         public String name;
-        protected String password;
+        protected char[] password;
+        protected byte[] passwordHash;
         public SelectContainerDialog.SelectedContainer selectedContainer;
 
         public PluggedContainer(SelectContainerDialog.SelectedContainer container) {
@@ -847,12 +891,20 @@ public class MainActivity
             return path;
         }
 
-        public String getPassword() {
-            return this.password;
+        public byte[] getPassword() {
+            if(passwordHash != null) {
+                return passwordHash;
+            }
+
+            return Cryptor.cryptPassword(password);
         }
 
-        public void setPassword(String password) {
+        public void setPassword(char[] password) {
             this.password = password;
+        }
+
+        public void setPasswordHash(byte[] passwordHash) {
+            this.passwordHash = passwordHash;
         }
 
         public boolean isCreate() {
@@ -871,9 +923,11 @@ public class MainActivity
         public String toString() {
             return "PluggedContainer{" +
                     "name='" + name + '\'' +
-                    ", password='" + password + '\'' +
                     ", selectedContainer=" + selectedContainer +
                     '}';
         }
+
+
     }
+    //endregion
 }

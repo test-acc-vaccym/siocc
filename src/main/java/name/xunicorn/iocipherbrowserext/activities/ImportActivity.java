@@ -19,8 +19,10 @@ import info.guardianproject.iocipher.FileOutputStream;
 import info.guardianproject.iocipher.VirtualFileSystem;
 import name.xunicorn.iocipherbrowserext.R;
 import name.xunicorn.iocipherbrowserext.components.Configs;
+import name.xunicorn.iocipherbrowserext.components.Cryptor;
 import name.xunicorn.iocipherbrowserext.fragments.dialogs.PasswordDialog;
 import name.xunicorn.iocipherbrowserext.models.Files;
+import name.xunicorn.iocipherbrowserext.models.Preferences;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -46,11 +48,13 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
     boolean is_spinner_visible = true;
 
     String containerPath = null;
-    String password      = null;
+    byte[] password      = null;
 
     Thread t;
 
     FILE_ACTION fileAction = FILE_ACTION.COPY;
+
+    boolean isPrevMounted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,7 +178,9 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        unMountVfs();
+                        if(!isPrevMounted) {
+                            unMountVfs();
+                        }
 
                         Intent _new = new Intent(getBaseContext(), MainActivity.class);
                         startActivity(_new);
@@ -187,9 +193,9 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
     //endregion
 
     @Override
-    public void onSetContainerPassword(String password) {
-        Log.i(TAG, "[onSetContainerPassword] password: " + password);
-        this.password = password;
+    public void onSetContainerPassword(char[] password) {
+        //Log.i(TAG, "[onSetContainerPassword] password: " + password);
+        this.password = Cryptor.cryptPassword(password);
         mountVfs();
     }
 
@@ -198,9 +204,7 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
     private void prepareVfs() throws Exception{
         Log.i(TAG, "[prepareVfs]");
 
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-        containerPath = sp.getString(Configs.PREF_CONTAINER_PATH, null);
+        containerPath = Preferences.model(getBaseContext()).getImportContainer();
 
         if(TextUtils.isEmpty(containerPath)) {
             Log.e(TAG, "[mountVfs] settings container path is empty");
@@ -210,7 +214,19 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
 
         Log.i(TAG, "[prepareVfs] container path: " + containerPath);
 
-        PasswordDialog.newInstance().show(getFragmentManager(), "passwordDialog");
+        VirtualFileSystem vfs = VirtualFileSystem.get();
+
+        if(vfs.isMounted()) {
+            if (vfs.getContainerPath().equals(containerPath)) {
+                isPrevMounted = true;
+
+                startCopy();
+            }
+        } else {
+            PasswordDialog.newInstance().show(getFragmentManager(), "passwordDialog");
+        }
+
+
     }
 
     private void mountVfs() {
@@ -234,11 +250,19 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
         }
 
         if(!vfs.isMounted()) {
-            vfs.setContainerPath(containerPath);
+            try {
+                vfs.mount(containerPath, password);
+            } catch (Exception e) {
+                Log.e(TAG, "[mountVfs] error: " + e.getMessage(), e);
 
-            vfs.mount(password);
+                Toast.makeText(getBaseContext(), R.string.txtContainerBadPassword, Toast.LENGTH_LONG).show();
+            }
+        }
 
+        if(vfs.isMounted()) {
             startCopy();
+        } else {
+            finishActivityCrash();
         }
     }
 

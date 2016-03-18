@@ -2,7 +2,6 @@ package name.xunicorn.iocipherbrowserext.fragments.dialogs;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -32,7 +31,7 @@ public class NewNameDialog extends DialogFragment {
     public enum ACTION { NEW, RENAME }
 
     public interface onSetNewNameListener {
-        void setNewName(String oldName, String newName, TYPE type, ACTION action);
+        void onSetNewName(String oldName, String newName, TYPE type, ACTION action);
     }
 
     onSetNewNameListener listener;
@@ -114,7 +113,7 @@ public class NewNameDialog extends DialogFragment {
 
                 String new_name = edit.getText().toString();
 
-                listener.setNewName(oldName, new_name, type, action);
+                listener.onSetNewName(oldName, new_name, type, action);
 
                 //hideKeyboard();
 

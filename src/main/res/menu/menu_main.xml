@@ -11,6 +11,13 @@
         app:showAsAction="ifRoom"
         tools:ignore="AppCompatResource"/>
 
+    <item
+        android:id="@+id/menuMainWindow"
+        android:title="@string/menuMainWindow"
+        android:icon="@drawable/icon"
+        app:showAsAction="ifRoom"
+        />
+
     <group android:id="@+id/menuContainerActionsGroup" android:checkableBehavior="none">
         <item
             android:id="@+id/menuCreateContainer"

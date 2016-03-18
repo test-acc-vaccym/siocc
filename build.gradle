@@ -43,5 +43,5 @@ dependencies {
     compile 'info.guardianproject.iocipher:IOCipherStandalone:0.3'
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile 'com.jaredrummler:android-device-names:1.0.8'
-    compile 'info.guardianproject.cacheword:cachewordlib:0.1'
+    //compile 'info.guardianproject.cacheword:cachewordlib:0.1'
 }

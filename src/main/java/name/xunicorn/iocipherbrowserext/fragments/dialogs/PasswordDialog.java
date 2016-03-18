@@ -20,7 +20,7 @@ public class PasswordDialog extends DialogFragment {
     public final String TAG = "PasswordDialog";
 
     public interface OnSetContainerPasswordListener {
-        void onSetContainerPassword(String password);
+        void onSetContainerPassword(char[] password);
     }
 
     EditText editPassword;
@@ -67,7 +67,7 @@ public class PasswordDialog extends DialogFragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onSetContainerPassword(editPassword.getText().toString());
+                listener.onSetContainerPassword(editPassword.getText().toString().toCharArray());
                 dismiss();
             }
         });
