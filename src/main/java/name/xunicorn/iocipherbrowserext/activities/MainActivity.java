@@ -23,6 +23,7 @@ import android.widget.*;
 import info.guardianproject.iocipher.VirtualFileSystem;
 import name.xunicorn.iocipherbrowserext.R;
 import name.xunicorn.iocipherbrowserext.components.Cryptor;
+import name.xunicorn.iocipherbrowserext.components.IOCipherProviderHelper;
 import name.xunicorn.iocipherbrowserext.fragments.*;
 import name.xunicorn.iocipherbrowserext.fragments.dialogs.*;
 import name.xunicorn.iocipherbrowserext.models.Containers;
@@ -125,7 +126,9 @@ public class MainActivity
             String cacheDirectory = Environment.getDownloadCacheDirectory().getAbsolutePath();
             String externalDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
             String rootDirectory  = Environment.getRootDirectory().getAbsolutePath();
+            String locale         = getResources().getConfiguration().locale.getDisplayName();
 
+            Log.d(TAG, "[onCreate] locale: "  + locale);
             Log.d(TAG, "[onCreate] data directory: "  + dataDirectory);
             Log.d(TAG, "[onCreate] cache directory: " + cacheDirectory);
             Log.d(TAG, "[onCreate] external directory: " + externalDirectory);
@@ -330,12 +333,12 @@ public class MainActivity
     protected void onDestroy() {
         Log.i(TAG, "[onDestroy]");
 
-        vfsUnMount();
+        //vfsUnMount();
 
         super.onDestroy();
     }
 
-/*
+    /*
     @Override
     protected void onPause() {
         Log.i(TAG, "[onPause]");
@@ -343,7 +346,7 @@ public class MainActivity
         super.onPause();
         vfsUnMount();
     }
-*/
+    */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -541,6 +544,8 @@ public class MainActivity
         if (vfs.isMounted()) {
 
             try {
+                //IOCipherProviderHelper.initialize().closeAll();
+
                 vfs.unmount();
 
                 Log.i(TAG, "[vfsUnMount] vfs successfully unmounted");

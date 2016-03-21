@@ -99,7 +99,21 @@ public class NewNameDialog extends DialogFragment {
             }
         }
 
-        getDialog().setTitle("New " + type.toString().toLowerCase() + " name");
+        switch(type) {
+            case CONTAINER:
+                getDialog().setTitle(R.string.txtNewNameDialogContainer);
+                break;
+
+            case DIR:
+                getDialog().setTitle(R.string.txtNewNameDialogDir);
+                break;
+
+            case FILE:
+                getDialog().setTitle(R.string.txtNewNameDialogFile);
+                break;
+        }
+
+        //getDialog().setTitle("New " + type.toString().toLowerCase() + " name");
 
         View v = inflater.inflate(R.layout.dialog_new_name, null);
 
@@ -121,7 +135,7 @@ public class NewNameDialog extends DialogFragment {
             }
         });
 
-        btnOk.setText(action == ACTION.RENAME ? "Rename" : "Create");
+        btnOk.setText(action == ACTION.RENAME ? R.string.btnRename : R.string.btnCreate);
 
         v.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
             @Override

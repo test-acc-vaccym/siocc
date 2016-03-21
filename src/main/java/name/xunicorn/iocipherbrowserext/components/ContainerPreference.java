@@ -38,7 +38,6 @@ public class ContainerPreference extends DialogPreference {
     public ContainerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        setTitle("Choose container");
         setDialogLayoutResource(R.layout.dialog_select_container);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);

@@ -41,7 +41,7 @@ public class PasswordDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        getDialog().setTitle("Container password");
+        getDialog().setTitle(R.string.txtPasswordDialogTitle);
 
         View v = inflater.inflate(R.layout.dialog_password, null);
 

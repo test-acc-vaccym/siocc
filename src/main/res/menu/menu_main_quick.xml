@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menuUnPlugContainer"
         android:title="@string/menuUnMountContainer"
-        android:icon="@drawable/unmount"
+        android:icon="@drawable/eject"
         app:showAsAction="always"
         />
 </menu>

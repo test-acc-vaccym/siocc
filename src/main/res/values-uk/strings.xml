@@ -1,0 +1,114 @@
+<resources>
+    <string name="app_name">IOCipherBrowserExt</string>
+    <string name="title_activity_feedback">Підтримка</string>
+    <string name="title_activity_update">Оновлення</string>
+
+    <string name="action_settings">Налаштування</string>
+    <string name="uploading_hint">Зачекайте будь ласка, доки ваш контент завантажиться &#8230;</string>
+    <string name="showPassword">Показати пароль</string>
+    <string name="hintPlugContainer">Для початку користування змонтуйте контейнер</string>
+
+    <string name="btnPlug">Монтувати</string>
+    <string name="btnCreate">Створити</string>
+    <string name="btnCancel">Відмінити</string>
+    <string name="btnOk">Ок</string>
+    <string name="btnYes">Так</string>
+    <string name="btnNo">Ні</string>
+    <string name="btnTicketCreate">Створити тікет</string>
+    <string name="btnTicketResponse">Відповісти на тікет</string>
+    <string name="btnUpdate">Оновити</string>
+
+    <string name="menuSettings">Налаштування</string>
+    <string name="menuMainWindow">Головне вікно</string>
+
+    <string name="menuBackToProgram">Назад до програми</string>
+
+    <string name="menuCreateContainer">Створити контейнер</string>
+    <string name="menuMountContainer">Монтувати контейнер</string>
+    <string name="menuUnMountContainer">Розмонтувати контейнер</string>
+    <string name="menuQuickUnMountContainer">Розмонтувати і видалити паролі</string>
+    <string name="menuDeleteContainer">Видалити поточний контейнер</string>
+
+    <string name="menuDebug">Debug</string>
+    <string name="menuCreate">Нова тека</string>
+    <string name="menuCopy">Копіювати</string>
+    <string name="menuCut">Вирізати</string>
+    <string name="menuRename">Параіменувати</string>
+    <string name="menuPaste">Вставити</string>
+    <string name="menuDelete">Видалити</string>
+    <string name="menuExport">Експортувати</string>
+    <string name="menuFeedback">Підтримка</string>
+    <string name="menuRefresh">Оновити</string>
+    <string name="menuTakePhoto">Зробити фото</string>
+    <string name="menuShare">Поділитися</string>
+    <string name="menuUpdate">Оновити софт</string>
+    <string name="btnRename">Переіменувати</string>
+
+    <string name="pathInternal">Внутрішня пам"ять</string>
+    <string name="pathExternal">Зовнішня пам"ять</string>
+    <string name="pathCustom">Довільний шлях</string>
+
+    <string name="savedContainers">Ваші контейнери</string>
+
+    <string name="settingsImportContainerPath">Шлях контейнера для імпорту</string>
+    <string name="settingsImportAction">Дія над файлами при імпорті</string>
+
+    <string-array name="settingsImportActions">
+        <item>COPY</item>
+        <item>MOVE</item>
+    </string-array>
+
+    <string name="importCautionTitle">Увага!</string>
+    <string name="importCautionText">Будьте уважні! Ваш контент залишився фізично на диску. Видаліть його вручну за допомогою альбому (або файлового менеджера)</string>
+
+    <string name="openDrawer">Відкрити меню</string>
+    <string name="closeDrawer">Закрити меню</string>
+
+    <string name="containerDeleteDialogTitle">Видалення контейнера</string>
+    <string name="containerDeleteDialogMessage">Ви впевненні, що хочете видалити поточний контейнер?</string>
+    <string name="containerDeleteSuccess">Контейнер був успішно видалений</string>
+    <string name="containerDeleteFailed">Не можу видалити файл контейнера</string>
+    <string name="containerDeleteError">Виникла помилка при видаленні файла контейнера. (Створіть тікет в службу підтримки разом з логами)</string>
+
+    <string name="txtCurrentVersion">Поточна версія</string>
+    <string name="txtLatestVersion">Остання версія</string>
+    <string name="txtLatestVersionUnknown">невідомо</string>
+    <string name="txtUpdatingHint">Отримання інформації про останню версію</string>
+    <string name="txtUpdatingHintOk">Ви маєте найновішу версію</string>
+    <string name="txtUpdatingHintFail">Ви повинні скачати найновішу версію</string>
+
+    <string name="txtContainerBadPassword">Невірний пароль</string>
+
+    <string name="txtDownloadManagerUpdateTitle">Оновлення програми</string>
+    <string name="txtDownloadManagerUpdateDescription">Скачування найновішої версії</string>
+    <string name="txtUpdateFileAlreadyDownloaded">Файл оновлення скачано. Приступаємо до встановлення програми &#8230;</string>
+    <string name="txtUpdateFileStartDownload">Файл оновлення почав завантажуватися.</string>
+
+    <string name="txtTicketHasLogs">Має логи</string>
+    <string name="txtCreateTicketRequestError">Виникла помилка при створенні тікета.</string>
+
+    <string name="txtCreateTicketTitle">Назва</string>
+    <string name="txtCreateTicketUsername">Користувач</string>
+    <string name="txtCreateTicketMessage">Повідомлення</string>
+    <string name="txtCreateTicketAppLogs">Посилати системні логи</string>
+
+    <string name="txtContainerFileNotExist">Файл контейнера не існує</string>
+    <string name="txtContainerFileExist">Контейнер з таким ім"ям вже існує</string>
+
+    <string name="txtContainerUnMountError">Ви повинні закрити всі перегляди фотографій з вашого контейнера</string>
+
+    <string name="txtSelectContainerSelect">Оберіть шлях конейнеру</string>
+    <string name="txtSelectContainerCreate">Створити новий контейнер</string>
+
+    <string name="txtNewNameDialogContainer">Нове ім"я для контейнера</string>
+    <string name="txtNewNameDialogFile">Нове ім"я для файла</string>
+    <string name="txtNewNameDialogDir">Нове ім"я для теки</string>
+
+    <string name="txtPasswordDialogTitle">Пароль до контейнеру</string>
+
+    <string name="txtContainerListItemView">Перегляд</string>
+    <string name="txtContainerListItemShare">Поділитися</string>
+    <string name="txtContainerListItemExport">Експортувати</string>
+
+    <string name="txtContainerListItemShareThis">Поділись цим!</string>
+</resources>

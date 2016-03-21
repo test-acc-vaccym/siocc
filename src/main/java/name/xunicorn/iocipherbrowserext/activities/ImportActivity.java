@@ -221,6 +221,14 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
                 isPrevMounted = true;
 
                 startCopy();
+            } else {
+                try {
+                    vfs.unmount();
+
+                    startCopy();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             PasswordDialog.newInstance().show(getFragmentManager(), "passwordDialog");
@@ -338,7 +346,7 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
                 if (intent.hasExtra(Intent.EXTRA_STREAM)) {
                     List<Uri> uris = (ArrayList<Uri>)intent.getExtras().get(Intent.EXTRA_STREAM);
 
-                    Log.d(TAG, "[run] uris: " + uris );
+                    Log.i(TAG, "[run] uris: " + uris );
 
                     try {
                         handleMultipleUri(uris);
@@ -358,12 +366,12 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
                 InputStream in;
 
                 if(!dataUri.getScheme().equals("file")) {
-                    Log.d(TAG, "[handleSendUri] get input stream");
+                    Log.i(TAG, "[handleSendUri] get input stream");
                     ContentResolver cr = getContentResolver();
                     in = cr.openInputStream(dataUri);
                     Log.i(TAG, "incoming URI: " + dataUri.toString());
 
-                    Log.d(TAG, "[handleSendUri] get path from uri");
+                    Log.i(TAG, "[handleSendUri] get path from uri");
                     //filepath = Files.model(getApplicationContext()).getFilePathFromURI(dataUri);
                 } else {
                     //filepath = dataUri.getPath();
@@ -378,17 +386,17 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
 
                 totalBytes = data.length();
 
-                Log.d(TAG, "[handleSendUri] get output stream");
+                //Log.d(TAG, "[handleSendUri] get output stream");
                 BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
 
-                Log.d(TAG, "[handleSendUri] start copy");
+                //Log.d(TAG, "[handleSendUri] start copy");
                 readBytesAndClose(in, out, data.length());
 
                 if(fileAction == FILE_ACTION.MOVE) {
                     deleteFile(dataUri);
                 }
 
-                Log.v(TAG, f.getAbsolutePath() + " size: " + String.valueOf(f.length()));
+                Log.i(TAG, f.getAbsolutePath() + " successfully copied. Size: " + String.valueOf(f.length()));
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage(), e);
                 handleException(e);
@@ -433,10 +441,10 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
                     File f = new File("/" + fileName.toLowerCase());
                     java.io.File data = new java.io.File(filepath);
 
-                    Log.d(TAG, "[handleSendUri] get output stream");
+                    //Log.d(TAG, "[handleSendUri] get output stream");
                     BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
 
-                    Log.d(TAG, "[handleSendUri] start copy");
+                    //Log.d(TAG, "[handleSendUri] start copy");
                     readBytesAndClose(in, out, data.length());
 
                     if(fileAction == FILE_ACTION.MOVE) {
@@ -454,7 +462,7 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
         }
 
         private void deleteFile(Uri uri) {
-            Log.d(TAG, "[deleteFile] file action: " + fileAction + " | uri: " + uri + " | path: " + uri.getPath());
+            Log.i(TAG, "[deleteFile] file action: " + fileAction + " | uri: " + uri + " | path: " + uri.getPath());
 
             /*
             getContentResolver().delete(
@@ -466,7 +474,7 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
             Files.model(getBaseContext()).deleteImage(uri);
 
             if(uri.getScheme().equals("file")) {
-                Log.d(TAG, "[deleteFile] check physically file existence");
+                //Log.d(TAG, "[deleteFile] check physically file existence");
 
                 java.io.File file = new java.io.File(uri.getPath());
 
@@ -474,7 +482,7 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
                     if (!file.delete()) {
                         Log.e(TAG, "[deleteFile] could not delete the file: " + file.getAbsolutePath());
                     } else {
-                        Log.d(TAG, "[deleteFile] file successfully deleted: " + file.getAbsolutePath());
+                        Log.i(TAG, "[deleteFile] file successfully deleted: " + file.getAbsolutePath());
                     }
                 } else {
                     Log.w(TAG, "[deleteFile] file does not exists: " + file.getAbsolutePath());
@@ -504,9 +512,11 @@ public class ImportActivity extends Activity implements PasswordDialog.OnSetCont
                     float percentsTotal   = (float) totalBytesSave / totalBytes * 100;
                     float percentsCurrent = (float) total_save / totalBytesCurrent * 100;
 
+                    /*
                     Log.d(TAG, "[readBytesAndClose] Save. Current: " + total_save + " | " + percentsCurrent + " %."
                             + " Total: " + totalBytesSave + " | " + String.valueOf(percentsTotal) + " %."
                     );
+                    */
 
                     Message msg = handler.obtainMessage(
                             HANDLE_MULTIPLE_FILES,

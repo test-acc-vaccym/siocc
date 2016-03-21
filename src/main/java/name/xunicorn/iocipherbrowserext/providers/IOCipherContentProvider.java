@@ -13,6 +13,7 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 import info.guardianproject.iocipher.File;
 import info.guardianproject.iocipher.FileInputStream;
+import name.xunicorn.iocipherbrowserext.components.IOCipherProviderHelper;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -62,6 +63,8 @@ public class IOCipherContentProvider extends ContentProvider {
             throw new FileNotFoundException("Could not open pipe for: "
                     + uri.toString());
         }
+
+        //IOCipherProviderHelper.initialize().addDescriptor(pipe[0]);
 
         return (pipe[0]);
     }

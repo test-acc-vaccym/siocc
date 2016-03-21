@@ -2,6 +2,6 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <name.xunicorn.iocipherbrowserext.components.ContainerPreference
         android:key="uploadingContainerPath"
-        android:title="@string/settingsContainerPath"
+        android:title="@string/settingsImportContainerPath"
         />
 </PreferenceScreen>

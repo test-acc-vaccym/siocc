@@ -93,7 +93,7 @@ public class ContainerListFragment extends Fragment {
                 new AlertDialog.Builder(getActivity())
                         .setIcon(R.drawable.icon)
                         .setTitle("[" + file.getName() + "]")
-                        .setNeutralButton("View",
+                        .setNeutralButton(R.string.txtContainerListItemView,
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog,
@@ -124,7 +124,7 @@ public class ContainerListFragment extends Fragment {
                                     }
                                 })
 
-                        .setPositiveButton("Share",
+                        .setPositiveButton(R.string.txtContainerListItemShare,
                                 new DialogInterface.OnClickListener() {
 
                                     @Override
@@ -149,14 +149,14 @@ public class ContainerListFragment extends Fragment {
                                                 + "}");
 
                                         try {
-                                            startActivity(Intent.createChooser(intent, "Share this!"));
+                                            startActivity(Intent.createChooser(intent, getString(R.string.txtContainerListItemShareThis)));
                                         } catch (ActivityNotFoundException e) {
                                             Log.e(TAG, "No relevant Activity found", e);
                                         }
                                     }
                                 })
 
-                        .setNegativeButton("Export",
+                        .setNegativeButton(R.string.txtContainerListItemExport,
                                 new DialogInterface.OnClickListener() {
 
                                     @Override

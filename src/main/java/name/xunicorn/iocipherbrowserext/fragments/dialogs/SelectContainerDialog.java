@@ -89,12 +89,12 @@ public class SelectContainerDialog extends DialogFragment {
 
         switch (action) {
             case CREATE:
-                getDialog().setTitle("Create New Container");
+                getDialog().setTitle(R.string.txtSelectContainerCreate);
                 break;
 
             case OPEN:
             case DELETE:
-                getDialog().setTitle("Select Container");
+                getDialog().setTitle(R.string.txtSelectContainerSelect);
                 break;
         }
 
@@ -227,10 +227,17 @@ public class SelectContainerDialog extends DialogFragment {
             lvSaved.setAdapter(null);
         } else {
             //names.add(0, "[new]");
-            lvSaved.setAdapter(new ArrayAdapter<String>((Context)listener, android.R.layout.simple_list_item_single_choice, names));
+            if(action != ACTION.CREATE) {
+                lvSaved.setAdapter(new ArrayAdapter<String>((Context) listener, android.R.layout.simple_list_item_single_choice, names));
+            } else {
+                lvSaved.setAdapter(new ArrayAdapter<String>((Context)listener, android.R.layout.simple_list_item_1, names));
+            }
+
             lvSaved.setItemChecked(0, true);
             savedGroup.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     CONTAINER_PATH getSelectedPath() {
