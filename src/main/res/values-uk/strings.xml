@@ -17,6 +17,7 @@
     <string name="btnTicketCreate">Створити тікет</string>
     <string name="btnTicketResponse">Відповісти на тікет</string>
     <string name="btnUpdate">Оновити</string>
+    <string name="btnRename">Переіменувати</string>
 
     <string name="menuSettings">Налаштування</string>
     <string name="menuMainWindow">Головне вікно</string>
@@ -26,7 +27,7 @@
     <string name="menuCreateContainer">Створити контейнер</string>
     <string name="menuMountContainer">Монтувати контейнер</string>
     <string name="menuUnMountContainer">Розмонтувати контейнер</string>
-    <string name="menuQuickUnMountContainer">Розмонтувати і видалити паролі</string>
+    <string name="menuQuickUnMountContainer">Екстренне катапультування</string>
     <string name="menuDeleteContainer">Видалити поточний контейнер</string>
 
     <string name="menuDebug">Debug</string>
@@ -42,7 +43,6 @@
     <string name="menuTakePhoto">Зробити фото</string>
     <string name="menuShare">Поділитися</string>
     <string name="menuUpdate">Оновити софт</string>
-    <string name="btnRename">Переіменувати</string>
 
     <string name="pathInternal">Внутрішня пам"ять</string>
     <string name="pathExternal">Зовнішня пам"ять</string>
@@ -109,6 +109,6 @@
     <string name="txtContainerListItemView">Перегляд</string>
     <string name="txtContainerListItemShare">Поділитися</string>
     <string name="txtContainerListItemExport">Експортувати</string>
-
     <string name="txtContainerListItemShareThis">Поділись цим!</string>
+    <string name="txtContainerListInfo">Інфо: #dirpath [ #items_count предметів ]</string>
 </resources>

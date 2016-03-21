@@ -109,6 +109,6 @@
     <string name="txtContainerListItemView">View</string>
     <string name="txtContainerListItemShare">Share</string>
     <string name="txtContainerListItemExport">Export</string>
-
     <string name="txtContainerListItemShareThis">Share this!</string>
+    <string name="txtContainerListInfo">Info: #dirpath [ #items_count item ]</string>
 </resources>

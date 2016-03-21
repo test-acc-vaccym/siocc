@@ -302,7 +302,12 @@ public class ContainerListFragment extends Fragment {
         item.addAll(directories);
         item.addAll(files_list);
 
-        fileInfo.setText("Info: " + dirPath + " [ " + files.length + " item ]");
+        String info = getString(R.string.txtContainerListInfo);
+
+        info = info.replace("#dirpath", dirPath);
+        info = info.replace("#items_count", String.valueOf(files.length));
+
+        fileInfo.setText(info);
         // declare array with specific number of items
         items = new String[item.size()];
         // send data arraylist(item) to array(items)
