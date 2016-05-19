@@ -1,0 +1,117 @@
+<resources>
+    <string name="app_name">IOCipherBrowserExt</string>
+    <string name="title_activity_feedback">Поддержка</string>
+    <string name="title_activity_update">Обновления</string>
+
+    <string name="action_settings">Настройки</string>
+    <string name="uploading_hint">Подождите пожалуйста, пока ваш контент загрузиться &#8230;</string>
+    <string name="showPassword">Показать пароль</string>
+    <string name="hintPlugContainer">Для начала использования подключите контейнер</string>
+
+    <string name="btnPlug">Подключить</string>
+    <string name="btnCreate">Создать</string>
+    <string name="btnCancel">Отменить</string>
+    <string name="btnOk">Ок</string>
+    <string name="btnYes">Да</string>
+    <string name="btnNo">Нет</string>
+    <string name="btnTicketCreate">Создать тикет</string>
+    <string name="btnTicketResponse">Ответить на тикет</string>
+    <string name="btnUpdate">Обновить</string>
+    <string name="btnRename">Переименовать</string>
+
+    <string name="menuSettings">Настройки</string>
+    <string name="menuMainWindow">Главное окно</string>
+
+    <string name="menuBackToProgram">Назад к программе</string>
+
+    <string name="menuCreateContainer">Создать контейнер</string>
+    <string name="menuMountContainer">Подключить контейнер</string>
+    <string name="menuUnMountContainer">Отключить контейнер</string>
+    <string name="menuQuickUnMountContainer">Єкстренное катапультирование</string>
+    <string name="menuDeleteContainer">Удалить текущий контейнер</string>
+
+    <string name="menuDebug">Debug</string>
+    <string name="menuCreate">Новая папка</string>
+    <string name="menuCopy">Копировать</string>
+    <string name="menuCut">Вырезать</string>
+    <string name="menuRename">Переименовать</string>
+    <string name="menuPaste">Вставить</string>
+    <string name="menuDelete">Удалить</string>
+    <string name="menuExport">Экспортировать</string>
+    <string name="menuFeedback">Поддержка</string>
+    <string name="menuRefresh">Обновить</string>
+    <string name="menuTakePhoto">Сделать фото</string>
+    <string name="menuShare">Поделиться</string>
+    <string name="menuUpdate">Обновить софт</string>
+
+    <string name="pathInternal">Внутренняя память</string>
+    <string name="pathExternal">Внешняя память</string>
+    <string name="pathCustom">Произвольный путь</string>
+
+    <string name="savedContainers">Ваши контейнера</string>
+
+    <string name="settingsImportContainerPath">Путь контейнера для импорта</string>
+    <string name="settingsImportAction">Действие над файлами при импорте</string>
+
+    <string-array name="settingsImportActions">
+        <item>COPY</item>
+        <item>MOVE</item>
+    </string-array>
+
+    <string name="importCautionTitle">Внимание!</string>
+    <string name="importCautionText">Будьте внимательны! Ваш контент остался физически на диске. Удалите его вручную с помощью альбома (или файлового менеджера)</string>
+
+    <string name="openDrawer">Открыть меню</string>
+    <string name="closeDrawer">Закрыть меню</string>
+
+    <string name="containerDeleteDialogTitle">Удаление контейнера</string>
+    <string name="containerDeleteDialogMessage">Вы уверены, что хотите удалить текущий контейнер?</string>
+    <string name="containerDeleteSuccess">Контейнер был успешно удален</string>
+    <string name="containerDeleteFailed">Не могу удалить файл контейнера</string>
+    <string name="containerDeleteError">Ошибка при удалении файла контейнера. (Создайте тикет в службу поддержки вместе с логами)</string>
+
+    <string name="txtCurrentVersion">Текущая версия</string>
+    <string name="txtLatestVersion">Последняя версия</string>
+    <string name="txtLatestVersionUnknown">неизвестно</string>
+    <string name="txtUpdatingHint">Получение информации о последней версии</string>
+    <string name="txtUpdatingHintOk">У вас установленная новейшая версия</string>
+    <string name="txtUpdatingHintFail">Вы должны скачать новейшую версию</string>
+
+    <string name="txtContainerBadPassword">Неверный пароль</string>
+
+    <string name="txtDownloadManagerUpdateTitle">Обновление программы</string>
+    <string name="txtDownloadManagerUpdateDescription">Скачивания новейшей версии</string>
+    <string name="txtUpdateFileAlreadyDownloaded">Файл обновления скачать. Приступаем к установке программы &#8230;</string>
+    <string name="txtUpdateFileStartDownload">Файл обновления начал загружаться.</string>
+
+    <string name="txtTicketHasLogs">Имеет логи</string>
+    <string name="txtCreateTicketRequestError">Возникла ошибка при создании тикета.</string>
+
+    <string name="txtCreateTicketTitle">Название</string>
+    <string name="txtCreateTicketUsername">Пользователь</string>
+    <string name="txtCreateTicketMessage">Сообщение</string>
+    <string name="txtCreateTicketAppLogs">Отослать системные логи</string>
+
+    <string name="txtContainerFileNotExist">Файл контейнера не существует</string>
+    <string name="txtContainerFileExist">Контейнер с таким именем уже существует</string>
+
+    <string name="txtContainerUnMountError">Ви должны закрыть все просмотры фотографий с вашего контейнера</string>
+
+    <string name="txtSelectContainerSelect">Выберите путь конейнера</string>
+    <string name="txtSelectContainerCreate">Создать новый контейнер</string>
+
+    <string name="txtNewNameDialogContainer">Новое имя для контейнера</string>
+    <string name="txtNewNameDialogFile">Новое имя для файла</string>
+    <string name="txtNewNameDialogDir">Новое имя для папки</string>
+
+    <string name="txtPasswordDialogTitle">Пароль к контейнеру</string>
+
+    <string name="txtContainerListItemView">Просмотр</string>
+    <string name="txtContainerListItemShare">Поделиться</string>
+    <string name="txtContainerListItemExport">Экспортировать</string>
+    <string name="txtContainerListItemShareThis">Поделиться этим!</string>
+    <string name="txtContainerListInfo">Инфо: #dirpath [ #items_count предметов ]</string>
+
+    <string name="txtAppCrashedTitle">Ошибка в программе!</string>
+    <string name="txtAppCrashedMessage">Возникла ошибка в работе программы. Был отослан лист в службу поддержки. Примите извинения за неудобства :(</string>
+</resources>

@@ -17,6 +17,7 @@ import com.android.volley.toolbox.Volley;
 import com.jaredrummler.android.device.DeviceName;
 import name.xunicorn.iocipherbrowserext.R;
 import name.xunicorn.iocipherbrowserext.components.Configs;
+import name.xunicorn.iocipherbrowserext.components.MyAppLogReader;
 import name.xunicorn.iocipherbrowserext.fragments.dialogs.NewTicketDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,7 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
     public static final String TAG_PARENT_ID = "parent_id";
     public static final String TAG_IS_ADMIN  = "is_admin";
     public static final String TAG_IS_CLOSED = "is_closed";
+    public static final String TAG_IS_CRASH_REPORT = "is_crash_report";
     public static final String TAG_DATE      = "date";
     public static final String TAG_USERNAME  = "username";
     public static final String TAG_TOPIC     = "topic";
@@ -434,15 +436,16 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
 
     //region Ticket class
     public static class Ticket {
-        public final Integer id;
-        public final Integer parent_id;
-        public final Boolean is_admin;
-        public final Boolean is_closed;
-        public final Date    date;
-        public final String  username;
-        public final String  topic;
-        public final String  message;
-        public final String  logcat;
+        public Integer id;
+        public Integer parent_id;
+        public Boolean is_admin;
+        public Boolean is_closed;
+        public Boolean is_crash_report;
+        public Date    date;
+        public String  username;
+        public String  topic;
+        public String  message;
+        public String  logcat;
 
         public final String deviceInfo;
         public final String deviceInfoExt;
@@ -464,6 +467,8 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
 
             deviceInfo = null;
             deviceInfoExt = null;
+
+            is_crash_report = false;
         }
 
         public Ticket(String message, Integer parent_id, String topic, String username) {
@@ -480,11 +485,23 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
             id        = null;
             is_admin  = false;
             is_closed = false;
+            is_crash_report = false;
             date      = new Date();
 
             deviceInfo    = DeviceName.getDeviceName();
             //deviceInfo    = android.os.Build.MODEL;
             deviceInfoExt = getDeviceName();
+        }
+
+
+
+        public static Ticket createCrashTicket(Throwable exception) {
+            String appLogs = MyAppLogReader.getLog().toString();
+            Ticket ticket = new FeedbackActivity.Ticket(exception.getMessage(), 0, "App CRASHED!!!", "sysytem", appLogs);
+
+            ticket.is_crash_report = true;
+
+            return ticket;
         }
 
         public JSONObject toJSON() {
@@ -503,6 +520,7 @@ public class FeedbackActivity extends AppCompatActivity implements ListView.OnIt
                 obj.put(TAG_LOGCAT, logcat);
                 obj.put(TAG_DEVICE_INFO, deviceInfo);
                 obj.put(TAG_DEVICE_INFO_EXT, deviceInfoExt);
+                obj.put(TAG_IS_CRASH_REPORT, is_crash_report);
 
                 return obj;
             } catch (JSONException e) {

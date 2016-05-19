@@ -85,14 +85,18 @@ public class ContainerListFragment extends Fragment {
 
                 final File file = new File(filePath);
 
-                final Uri uri = Uri.parse(IOCipherContentProvider.FILES_URI + filePath);
+
+                final String pathFinal = filePath;
+                final String fileNameFinal = items[pos];
+
+                final Uri uri = Uri.parse(IOCipherContentProvider.FILES_URI + pathFinal);
                 //final Uri uri = Uri.parse(IOCipherContentProvider.FILES_URI + file.getParent());
 
                 Log.i(TAG, "[setOnItemLongClickListener] open URL: " + uri);
 
                 new AlertDialog.Builder(getActivity())
                         .setIcon(R.drawable.icon)
-                        .setTitle("[" + file.getName() + "]")
+                        .setTitle("[" + fileNameFinal + "]")
                         .setNeutralButton(R.string.txtContainerListItemView,
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -101,7 +105,7 @@ public class ContainerListFragment extends Fragment {
                                         try {
                                             Intent intent = new Intent(Intent.ACTION_VIEW);
 
-                                            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath());
+                                            String fileExtension = MimeTypeMap.getFileExtensionFromUrl(pathFinal);
                                             String mimeType = MimeTypeMap.getSingleton()
                                                     .getMimeTypeFromExtension(fileExtension.toLowerCase());
 
@@ -118,6 +122,7 @@ public class ContainerListFragment extends Fragment {
 
                                             //startActivity(new Intent(Intent.ACTION_VIEW, uri));
                                             startActivity(intent);
+                                            //startActivityForResult(intent, ACTIVITY_RESULT_VIEW);
                                         } catch (ActivityNotFoundException e) {
                                             Log.e(TAG, "No relevant Activity found", e);
                                         }
@@ -150,6 +155,7 @@ public class ContainerListFragment extends Fragment {
 
                                         try {
                                             startActivity(Intent.createChooser(intent, getString(R.string.txtContainerListItemShareThis)));
+                                            //startActivityForResult(Intent.createChooser(intent, getString(R.string.txtContainerListItemShareThis)), ACTIVITY_RESULT_SHARE);
                                         } catch (ActivityNotFoundException e) {
                                             Log.e(TAG, "No relevant Activity found", e);
                                         }
@@ -187,8 +193,6 @@ public class ContainerListFragment extends Fragment {
 
         getFileListForCurrent();
     }
-
-
 
     //region Public actions
 

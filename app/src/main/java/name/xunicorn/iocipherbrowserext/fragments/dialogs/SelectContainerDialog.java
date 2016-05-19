@@ -172,7 +172,10 @@ public class SelectContainerDialog extends DialogFragment {
 
         if(action == ACTION.CREATE) {
             v.findViewById(R.id.radioBtnPathCustom).setVisibility(View.GONE);
+            btnOk.setText(R.string.btnCreate);
         }
+
+        v.findViewById(R.id.radioBtnPathInternal).setVisibility(View.GONE);
 
         //if (action != ACTION.CREATE) {
             updateSavedItems(getSelectedPath());

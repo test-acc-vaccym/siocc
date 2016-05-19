@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+import com.google.gson.Gson;
 import info.guardianproject.iocipher.VirtualFileSystem;
 import name.xunicorn.iocipherbrowserext.R;
 import name.xunicorn.iocipherbrowserext.components.Cryptor;
@@ -46,7 +47,9 @@ public class MainActivity
 
     //region Class variables
 
-    private final static String TAG = "MainActivity";
+    public final static String TAG = "MainActivity";
+
+    public final static String BUNDLE_PLUGGED_CONTAINER = "plugged_container";
 
     private final int REQUEST_TAKE_PHOTO = 1;
 
@@ -76,6 +79,20 @@ public class MainActivity
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        Log.i(TAG, "[onCreate]");
+
+        if(savedInstanceState != null) {
+            String json = savedInstanceState.getString(BUNDLE_PLUGGED_CONTAINER, null);
+
+            if(json != null) {
+                Gson gson = new Gson();
+
+                container = gson.fromJson(json, PluggedContainer.class);
+
+                Log.d(TAG, "[onCreate] get plugged container from savedInstanceState. Container: " + container);
+            }
+        }
 
         containerFragment = new ContainerListFragment();
         defaultFragment   = new DefaultFragment();
@@ -118,8 +135,6 @@ public class MainActivity
         actionBarDrawerToggle.syncState();
 
         vfs = VirtualFileSystem.get();
-
-        Log.i(TAG, "[onCreate]");
 
         try {
             String dataDirectory  = Environment.getDataDirectory().getAbsolutePath();
@@ -338,15 +353,16 @@ public class MainActivity
         super.onDestroy();
     }
 
-    /*
     @Override
-    protected void onPause() {
-        Log.i(TAG, "[onPause]");
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.i(TAG, "[onSaveInstanceState]");
 
-        super.onPause();
-        vfsUnMount();
+        super.onSaveInstanceState(outState);
+
+        Gson gson = new Gson();
+
+        outState.putString(BUNDLE_PLUGGED_CONTAINER, gson.toJson(this.container));
     }
-    */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -501,6 +517,8 @@ public class MainActivity
             return;
         }
 
+        //vfs = null;
+
         Log.i(TAG, "[vfsMount] vfs isMounted: " + vfs.isMounted() + " | " + this.container);
 
         try {
@@ -544,14 +562,13 @@ public class MainActivity
         if (vfs.isMounted()) {
 
             try {
-                //IOCipherProviderHelper.initialize().closeAll();
+                //IOCipherContentProvider.closeAllPipes();
 
                 vfs.unmount();
 
                 Log.i(TAG, "[vfsUnMount] vfs successfully unmounted");
             } catch(Exception ex) {
                 Log.e(TAG, "[vfsUnMount] error: " + ex.getMessage(), ex);
-                //Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -878,18 +895,22 @@ public class MainActivity
         protected byte[] passwordHash;
         public SelectContainerDialog.SelectedContainer selectedContainer;
 
+        private String selectedContainerPath;
+
         public PluggedContainer(SelectContainerDialog.SelectedContainer container) {
             this.selectedContainer = container;
+
+            selectedContainerPath = Containers.model(getApplicationContext()).convertContainerPath(selectedContainer.path, selectedContainer.custom);
         }
 
         public String getPath() {
-            String path = Containers.model(getBaseContext()).convertContainerPath(selectedContainer.path, selectedContainer.custom);
+            String path = selectedContainerPath;
 
             if(selectedContainer.filename != null) {
                 path = path.substring(0, path.lastIndexOf("/")) + "/" + selectedContainer.filename;
             }
 
-            if(container.isCreate() && !TextUtils.isEmpty(name)) {
+            if(this.isCreate() && (name != null && !name.equals(""))) {
                 path = path.substring(0, path.lastIndexOf("/")) + "/" + name;
             }
 
@@ -931,8 +952,6 @@ public class MainActivity
                     ", selectedContainer=" + selectedContainer +
                     '}';
         }
-
-
     }
     //endregion
 }

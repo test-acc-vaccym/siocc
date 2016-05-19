@@ -19,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IOCipherContentProvider extends ContentProvider {
     public static final String TAG = "IOCipherContentProvider";
@@ -63,8 +65,6 @@ public class IOCipherContentProvider extends ContentProvider {
             throw new FileNotFoundException("Could not open pipe for: "
                     + uri.toString());
         }
-
-        //IOCipherProviderHelper.initialize().addDescriptor(pipe[0]);
 
         return (pipe[0]);
     }

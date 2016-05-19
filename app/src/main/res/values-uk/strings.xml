@@ -34,7 +34,7 @@
     <string name="menuCreate">Нова тека</string>
     <string name="menuCopy">Копіювати</string>
     <string name="menuCut">Вирізати</string>
-    <string name="menuRename">Параіменувати</string>
+    <string name="menuRename">Парейменувати</string>
     <string name="menuPaste">Вставити</string>
     <string name="menuDelete">Видалити</string>
     <string name="menuExport">Експортувати</string>
@@ -111,4 +111,7 @@
     <string name="txtContainerListItemExport">Експортувати</string>
     <string name="txtContainerListItemShareThis">Поділись цим!</string>
     <string name="txtContainerListInfo">Інфо: #dirpath [ #items_count предметів ]</string>
+
+    <string name="txtAppCrashedTitle">Помилка в програмі!</string>
+    <string name="txtAppCrashedMessage">Виникла помилка в роботі програми. Надіслався лист в службу підтримки. Просимо вибачення за незручності :(</string>
 </resources>

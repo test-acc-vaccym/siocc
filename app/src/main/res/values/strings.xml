@@ -111,4 +111,10 @@
     <string name="txtContainerListItemExport">Export</string>
     <string name="txtContainerListItemShareThis">Share this!</string>
     <string name="txtContainerListInfo">Info: #dirpath [ #items_count item ]</string>
+
+    <string name="txtAppCrashedTitle">App Crashed!</string>
+    <string name="txtAppCrashedMessage">App was suddenly crashed and will be close. Bug report was sent to feedback. Sorry :(</string>
+    <string name="title_activity_crash">CrashActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
